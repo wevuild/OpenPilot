@@ -48,6 +48,8 @@ int main() {
             .heading_error = 0.1
         };
 
+        // Push the output to the controller
+        // update function.
         auto output = controller.update(input);
 
         telemetry.send("Running...");
