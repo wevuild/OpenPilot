@@ -25,6 +25,7 @@ namespace autopilot {
 
 bool System::init() {
     current_state = SystemState::READY;
+    current_mode  = RunMode::IDLE;
     return true;
 }
 
@@ -37,11 +38,37 @@ bool System::start() {
 }
 
 void System::update() {
-    // future loop logic
+    if (current_state != SystemState::RUNNING) {
+        return;
+    }
+
+    switch (current_mode) {
+
+    case RunMode::IDLE:
+        // Wait for command.
+        break;  
+
+    case RunMode::ACCELERATING:
+        current_mode = RunMode::CRUISING;
+        break;
+    case RunMode::DECELERATING:
+        current_mode = RunMode::IDLE;
+        break;
+    case RunMode::STOPPED:
+        current_mode = RunMode::STOPPED;
+        break;
+    case RunMode::EMERGENCY_STOP:
+        // Cut engine, lights, etc
+        break;
+    }
 }
 
 SystemState System::state() const {
     return current_state;
+}
+
+RunMode System::mode() const {
+    return current_mode;
 }
 
 }
