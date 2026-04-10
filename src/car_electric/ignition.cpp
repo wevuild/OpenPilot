@@ -1,4 +1,4 @@
-/*
+		/*
  * Open-source auto-pilot software for robotics and vehicles.
  * Control with precision, build with confidence.
  *
@@ -29,7 +29,7 @@ bool Ignition::init() {
 }
 
 bool Ignition::off() {
-	 if (current_igns != PowerState::ON) {
+	 if (current_igns != PowerState::ON) {	
 	 	return true; // We are not on, so off
 
 	 	// We could add addional logic here,

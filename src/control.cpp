@@ -27,10 +27,10 @@ ControlOutput Controller::update(const ControlInput& input) {
     ControlOutput output{};
 
     // Very basic placeholder logic
-    output.throttle = input.target_speed - input.current_speed;
+    output. throttle = input.target_speed - input.current_speed;
     output.steering = input.heading_error;
 
     return output;
 }
 
-}   
+}       
