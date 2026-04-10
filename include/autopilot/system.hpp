@@ -30,16 +30,34 @@ enum class SystemState {
     ERROR
 };
 
+enum class RunMode {
+    IDLE,
+    ACCELERATING,
+    CRUISING,
+    DECELERATING,
+    TURNING,
+    STOPPED,
+    EMERGENCY_STOP
+};
+
 class System {
 public:
     bool init();
     bool start();
     void update();
 
+    void requestStop();
+    void triggerEmergencyStop();
+
     SystemState state() const;
+    RunMode mode() const;
 
 private:
     SystemState current_state = SystemState::INIT;
+    RunMode current_mode = RunMode::IDLE;
+
+    void setState(SystemState new_state);
+    void setMode(RunMode new_mode);
 };
 
 }
