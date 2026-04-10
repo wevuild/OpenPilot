@@ -34,7 +34,7 @@ bool CiElectric::pin_mode(Pin& pin, PinMode mode) {
 
 bool CiElectric::digital_write(const Pin& pin, PowerStatus value) {
     if (pin.mode() != PinMode::OUTPUT) {
-        return false; // ❌ cannot write to input pin
+        return false;
     }
 
     write_hardware_pin(pin.id(), value);
