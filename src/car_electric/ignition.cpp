@@ -38,7 +38,7 @@ bool Ignition::off() {
 }
 
 bool Ignition::pwr_on() {
-	if (current_igns != PowerState::ON) && != current_ign != PowerState::STARTING_ENGINE{
+	if (current_igns != PowerState::ON && != current_ign != PowerState::STARTING_ENGINE) {
 		// We are NOT on?
 		return false;
 	}
