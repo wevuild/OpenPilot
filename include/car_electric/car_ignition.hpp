@@ -22,7 +22,7 @@
 
 #pragma once
 
-namespace car {
+namespace car_electric {
 
 enum class PowerState {
 	OFF,
@@ -33,9 +33,9 @@ enum class PowerState {
 
 class Igntion {
 public:
-	bool off();
-	bool shortage();
-	bool pwr_on();
+	bool off();					// No power detected.
+	bool shortage();			// To little power to run.
+	bool pwr_on();				// Key is twisted at position two.
 	bool start_engine();		// Should only be valid when you have a key that requires
 								// twisting, modern cars use a button, so this will be changed
 								// depending on the model.
