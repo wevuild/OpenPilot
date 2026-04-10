@@ -18,33 +18,33 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Car ignition?
-
-#pragma once
+#include "../../include/car/car_ignition.hpp"
 
 namespace car_electric {
 
-enum class PowerState {
-	OFF,
-	SHORTAGE,
-	ON,
-	STARTING_ENGINE
-}
-
-class Ignition {
-public:
-	bool init();
-	bool off();					// No power detected.
-	bool shortage();			// To little power to run.
-	bool pwr_on();				// Key is twisted at position two.
-	bool start_engine();		// Should only be valid when you have a key that requires
-								// twisting, modern cars use a button, so this will be changed
-								// depending on the model.
-	PowerState state() const;
-
-private:
-	PowerState current_state = PowerState::OFF;
-	void set_state(PowerState new_state);
-};
+bool Ignition::init() {
+	current_igns  = PowerState::OFF;
+	return true;
 
 }
+
+bool Ignition::off() {
+	 if (current_igns != PowerState::ON) {
+	 	return true; // We are not on, so off
+
+	 	// We could add addional logic here,
+	 	// but currently i don't know.
+	 }
+}
+
+bool Ignition::pwr_on() {
+	if (current_igns != PowerState::ON) && != current_ign != PowerState::STARTING_ENGINE{
+		// We are NOT on?
+		return false;
+	}
+	// We can turn Ignition on?
+ 	// current_igns = PowerState::ON;
+    // return true;
+}
+
+} 
