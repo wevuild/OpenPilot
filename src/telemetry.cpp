@@ -18,37 +18,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "../include/autopilot/system.hpp"
-#include "../include/autopilot/control.hpp"
-#include "../include/autopilot/navigation.hpp"
-#include "../include/autopilot/sensors.hpp"
+
 #include "../include/autopilot/telemetry.hpp"
+#include <iostream>
 
-using namespace autopilot;
+namespace autopilot {
 
-int main() {
-    System system;
-    Sensors sensors;
-    Controller controller;
-    Navigator navigator;
-    Telemetry telemetry;
+void Telemetry::send(const std::string& message) {
+    std::cout << "[Telemetry] " << message << std::endl;
+}
 
-    system.init();
-    system.start();
-
-    while (system.state() == SystemState::RUNNING) {
-        auto data = sensors.read();
-
-        ControlInput input {
-            .target_speed = 10.0,
-            .current_speed = data.speed,
-            .heading_error = 0.1
-        };
-
-        auto output = controller.update(input);
-
-        telemetry.send("Running...");
-    }
-
-    return 0;
 }

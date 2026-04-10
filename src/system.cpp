@@ -18,37 +18,30 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+
 #include "../include/autopilot/system.hpp"
-#include "../include/autopilot/control.hpp"
-#include "../include/autopilot/navigation.hpp"
-#include "../include/autopilot/sensors.hpp"
-#include "../include/autopilot/telemetry.hpp"
 
-using namespace autopilot;
+namespace autopilot {
 
-int main() {
-    System system;
-    Sensors sensors;
-    Controller controller;
-    Navigator navigator;
-    Telemetry telemetry;
+bool System::init() {
+    current_state = SystemState::READY;
+    return true;
+}
 
-    system.init();
-    system.start();
+bool System::start() {
+    if (current_state != SystemState::READY)
+        return false;
 
-    while (system.state() == SystemState::RUNNING) {
-        auto data = sensors.read();
+    current_state = SystemState::RUNNING;
+    return true;
+}
 
-        ControlInput input {
-            .target_speed = 10.0,
-            .current_speed = data.speed,
-            .heading_error = 0.1
-        };
+void System::update() {
+    // future loop logic
+}
 
-        auto output = controller.update(input);
+SystemState System::state() const {
+    return current_state;
+}
 
-        telemetry.send("Running...");
-    }
-
-    return 0;
 }

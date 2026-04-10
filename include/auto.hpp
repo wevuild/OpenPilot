@@ -18,37 +18,19 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "../include/autopilot/system.hpp"
-#include "../include/autopilot/control.hpp"
-#include "../include/autopilot/navigation.hpp"
-#include "../include/autopilot/sensors.hpp"
-#include "../include/autopilot/telemetry.hpp"
+#pragma once
 
-using namespace autopilot;
+namespace autopilot {
 
-int main() {
-    System system;
-    Sensors sensors;
-    Controller controller;
-    Navigator navigator;
-    Telemetry telemetry;
+// Initialization
+bool auto_start();
+bool auto_setup();
 
-    system.init();
-    system.start();
+// Control
+bool auto_steer();     // TODO: add position input
+bool auto_accel();     // TODO: add speed/limits input
 
-    while (system.state() == SystemState::RUNNING) {
-        auto data = sensors.read();
+// Telemetry
+bool auto_telemetry();
 
-        ControlInput input {
-            .target_speed = 10.0,
-            .current_speed = data.speed,
-            .heading_error = 0.1
-        };
-
-        auto output = controller.update(input);
-
-        telemetry.send("Running...");
-    }
-
-    return 0;
-}
+} // namespace autopilot
