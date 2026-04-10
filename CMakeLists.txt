@@ -4,4 +4,5 @@ project(OpenPilot)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(OpenPilot src/main.cpp)
+add_executable(OpenPilot src/main.cpp src/core.cpp)
+target_include_directories(OpenPilot PRIVATE ./include)
