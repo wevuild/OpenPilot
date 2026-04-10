@@ -6,6 +6,11 @@ int logMessage(const std::string& message) {
     return 0;
 }
 
+int handleError(const std::string& errorMessage) {
+    std::cerr << "Error: " << errorMessage << std::endl;
+    return -1;
+}
+
 int run() {
     logMessage("Running main logic...");
     // Main logic of the application goes here
