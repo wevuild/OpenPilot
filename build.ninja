@@ -1,0 +1,23 @@
+# Variables
+cxx = g++
+cxxflags = -std=c++17 -Wall
+includes = -I./include
+
+# Rules
+rule compile
+  command = $cxx $cxxflags $includes -c $in -o $out
+  description = Compiling $in
+
+rule link
+  command = $cxx $in -o $out
+  description = Linking $out
+
+# Build instructions
+build main.o: compile src/main.cpp
+build system.o: compile src/system.cpp
+build control.o: compile src/control.cpp
+build sensors.o: compile src/sensors.cpp
+build telemetry.o: compile src/telemetry.cpp
+
+# Linking the final executable
+build OpenPilot: link main.o system.o control.o sensors.o telemetry.o
