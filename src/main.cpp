@@ -36,6 +36,9 @@ int main() {
     system.init();
     system.start();
 
+    // Whenever the system state is running, we
+    // pull data from sensors. After we have the data
+    // We need to set the values.
     while (system.state() == SystemState::RUNNING) {
         auto data = sensors.read();
 
