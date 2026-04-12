@@ -14,12 +14,16 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#include "../../include/ci_electric/ci_electric.hpp"
+#include "../../include/ci_electric/power.hpp"
+#include "../../include/autopilot/system.hpp"
+#include "../../include/car_electric/car_ignition.hpp"
 
 namespace ci_electric {
 
 
 bool CiElectric::init() {
+    current_system_state = SystemState::OFF;
+    current_power_state  = PowerState::OFF;
     // TODO: initialize GPIO subsystem
     return true;
 }

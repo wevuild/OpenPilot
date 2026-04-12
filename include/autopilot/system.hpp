@@ -24,6 +24,7 @@
 namespace autopilot {
 
 enum class SystemState {
+    OFF,
     INIT,
     READY,
     RUNNING,

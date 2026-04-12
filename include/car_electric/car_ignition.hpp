@@ -29,7 +29,7 @@ enum class PowerState {
 	SHORTAGE,
 	ON,
 	STARTING_ENGINE
-}
+};
 
 class Ignition {
 public:
