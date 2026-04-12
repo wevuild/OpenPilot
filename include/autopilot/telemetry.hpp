@@ -20,19 +20,15 @@
 
 
 #pragma once
-
 #include <string>
 
 namespace autopilot {
 
+enum class LogLevel { INFO, WARN, ERROR };
+
 class Telemetry {
 public:
-    // This allows us the send a log.
-    // In the future, those logs will be sent
-    // to a telementry node. IF the user decides
-    // to enable that. This is done so we can spot
-    // issues with the program.
-    void send(const std::string& message);
+    void send(const std::string& message, LogLevel level = LogLevel::INFO);
 };
 
 }

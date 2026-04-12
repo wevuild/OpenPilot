@@ -37,6 +37,10 @@ struct ControlInput {
 class Controller {
 public:
     ControlOutput update(const ControlInput& input);
+
+private:
+    double integral_   = 0.0;
+    double prev_error_ = 0.0;
 };
 
 }

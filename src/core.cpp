@@ -22,17 +22,26 @@
 #include <iostream>
 
 int logMessage(const std::string& message) {
-    std::cout << message << std::endl;
+    std::cout << message << "\n";
     return 0;
 }
 
 int handleError(const std::string& errorMessage) {
-    std::cerr << "Error: " << errorMessage << std::endl;
-    return -1;          // Return a non-zero value to indicate an error
+    std::cerr << "[ERROR] " << errorMessage << "\n";
+    return -1;
+}
+
+int setup() {
+    return logMessage("[core] Setup complete.");
+}
+
+int cleanup() {
+    return logMessage("[core] Cleanup complete.");
 }
 
 int run() {
-    logMessage("Running main logic...");
-    // Main logic of the application goes here
+    setup();
+    logMessage("[core] Running main logic...");
+    cleanup();
     return 0;
 }

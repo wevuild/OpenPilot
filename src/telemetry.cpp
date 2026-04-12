@@ -21,11 +21,25 @@
 
 #include "../include/autopilot/telemetry.hpp"
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 namespace autopilot {
 
-void Telemetry::send(const std::string& message) {
-    std::cout << "[Telemetry] " << message << std::endl;
+static const char* levelStr(LogLevel l) {
+    switch (l) {
+        case LogLevel::WARN:  return "WARN ";
+        case LogLevel::ERROR: return "ERROR";
+        default:              return "INFO ";
+    }
 }
 
+void Telemetry::send(const std::string& message, LogLevel level) {
+    auto now  = std::chrono::system_clock::now();
+    auto time = std::chrono::system_clock::to_time_t(now);
+    char buf[20];
+    std::strftime(buf, sizeof(buf), "%H:%M:%S", std::localtime(&time));
+    std::cout << "[" << buf << "][" << levelStr(level) << "] " << message << "\n";
 }
+
+} // namespace autopilot

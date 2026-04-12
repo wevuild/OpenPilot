@@ -1,4 +1,4 @@
-		/*
+/*
  * Open-source auto-pilot software for robotics and vehicles.
  * Control with precision, build with confidence.
  *
@@ -18,33 +18,47 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "../../include/car/car_ignition.hpp"
+#include "../../include/car_electric/car_ignition.hpp"
 
 namespace car_electric {
 
 bool Ignition::init() {
-	current_igns  = PowerState::OFF;
-	return true;
-
+    set_state(PowerState::OFF);
+    return true;
 }
 
 bool Ignition::off() {
-	 if (current_igns != PowerState::ON) {	
-	 	return true; // We are not on, so off
+    set_state(PowerState::OFF);
+    return true;
+}
 
-	 	// We could add addional logic here,
-	 	// but currently i don't know.
-	 }
+bool Ignition::shortage() {
+    set_state(PowerState::SHORTAGE);
+    return true;
 }
 
 bool Ignition::pwr_on() {
-	if (current_igns != PowerState::ON && != current_ign != PowerState::STARTING_ENGINE) {
-		// We are NOT on?
-		return false;
-	}
-	// We can turn Ignition on?
- 	// current_igns = PowerState::ON;
-    // return true;
+    if (current_state == PowerState::OFF || current_state == PowerState::SHORTAGE) {
+        set_state(PowerState::ON);
+        return true;
+    }
+    return false;
 }
 
-} 
+bool Ignition::start_engine() {
+    if (current_state != PowerState::ON)
+        return false;
+
+    set_state(PowerState::STARTING_ENGINE);
+    return true;
+}
+
+PowerState Ignition::state() const {
+    return current_state;
+}
+
+void Ignition::set_state(PowerState new_state) {
+    current_state = new_state;
+}
+
+} // namespace car_electric

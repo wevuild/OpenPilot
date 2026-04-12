@@ -20,8 +20,6 @@
 
 
 #include "../include/autopilot/system.hpp"
-// #include "../include/car/car_ignition.hpp"
-
 
 namespace autopilot {
 
@@ -47,30 +45,40 @@ void System::update() {
     switch (current_mode) {
 
     case RunMode::IDLE:
-        // Wait for command.
-        break;  
-
+        break;
     case RunMode::ACCELERATING:
+        current_mode = RunMode::CRUISING;
+        break;
+    case RunMode::CRUISING:
+        break;
+    case RunMode::TURNING:
         current_mode = RunMode::CRUISING;
         break;
     case RunMode::DECELERATING:
         current_mode = RunMode::IDLE;
         break;
     case RunMode::STOPPED:
-        current_mode = RunMode::STOPPED;
         break;
     case RunMode::EMERGENCY_STOP:
-        // Cut engine, lights, etc
+        current_state = SystemState::ERROR;
         break;
     }
 }
 
-SystemState System::state() const {
-    return current_state;
+void System::requestStop() {
+    if (current_state == SystemState::RUNNING)
+        current_state = SystemState::READY;
 }
 
-RunMode System::mode() const {
-    return current_mode;
+void System::triggerEmergencyStop() {
+    current_mode  = RunMode::EMERGENCY_STOP;
+    current_state = SystemState::ERROR;
 }
 
-}
+void System::setState(SystemState new_state) { current_state = new_state; }
+void System::setMode(RunMode new_mode)       { current_mode  = new_mode;  }
+
+SystemState System::state() const { return current_state; }
+RunMode     System::mode()  const { return current_mode;  }
+
+} // namespace autopilot

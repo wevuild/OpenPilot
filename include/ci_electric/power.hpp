@@ -21,8 +21,14 @@
 
 #pragma once
 
+#include "../autopilot/system.hpp"
+
 namespace ci_electric {
 
+enum class PowerState {
+    OFF,
+    ON
+};
 
 enum class PinMode {
     INPUT,
@@ -45,27 +51,21 @@ private:
     int id_;
     PinMode mode_ = PinMode::INPUT;
 
-    // Only CiElectric can change mode
     friend class CiElectric;
 };
-
-
 
 class CiElectric {
 public:
     bool init();
 
-    // Configure pin direction
     bool pin_mode(Pin& pin, PinMode mode);
-
-    // Write to OUTPUT pin
     bool digital_write(const Pin& pin, PowerStatus value);
-
-    // Read from INPUT pin
     PowerStatus digital_read(const Pin& pin) const;
 
 private:
-    // Internal helpers (optional extension point)
+    autopilot::SystemState current_system_state = autopilot::SystemState::OFF;
+    PowerState current_power_state = PowerState::OFF;
+
     void configure_hardware_pin(int pin_id, PinMode mode);
     void write_hardware_pin(int pin_id, PowerStatus value) const;
     PowerStatus read_hardware_pin(int pin_id) const;

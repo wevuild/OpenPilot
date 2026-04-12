@@ -20,16 +20,18 @@
 
 
 #include "../include/autopilot/sensors.hpp"
+#include <chrono>
 
 namespace autopilot {
 
 SensorData Sensors::read() {
     return SensorData{
-        .speed = 0.0,
-        .heading = 0.0,
-        .x = 0.0,
-        .y = 0.0
+        .speed     = 0.0,
+        .heading   = 0.0,
+        .x         = 0.0,
+        .y         = 0.0,
+        .timestamp = std::chrono::steady_clock::now()
     };
 }
 
-}
+} // namespace autopilot

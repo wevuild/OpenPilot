@@ -23,6 +23,9 @@
 #include "../include/autopilot/navigation.hpp"
 #include "../include/autopilot/sensors.hpp"
 #include "../include/autopilot/telemetry.hpp"
+#include <string>
+#include <thread>
+#include <chrono>
 
 using namespace autopilot;
 
@@ -36,24 +39,30 @@ int main() {
     system.init();
     system.start();
 
-    // Whenever the system state is running, we
-    // pull data from sensors. After we have the data
-    // We need to set the values.
+    navigator.set_target(Position{ .x = 100.0, .y = 200.0, .heading = 0.0 });
+    telemetry.send("System started. Target set.", LogLevel::INFO);
+
     while (system.state() == SystemState::RUNNING) {
         auto data = sensors.read();
 
         ControlInput input {
-            .target_speed = 10.0,
+            .target_speed  = 10.0,
             .current_speed = data.speed,
-            .heading_error = 0.1
+            .heading_error = data.heading
         };
 
-        // Push the output to the controller
-        // update function.
         auto output = controller.update(input);
+        system.update();
 
-        telemetry.send("Running...");
+        telemetry.send(
+            "throttle=" + std::to_string(output.throttle) +
+            " steering=" + std::to_string(output.steering),
+            LogLevel::INFO
+        );
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(50)); // 20 Hz
     }
 
+    telemetry.send("System stopped.", LogLevel::WARN);
     return 0;
 }

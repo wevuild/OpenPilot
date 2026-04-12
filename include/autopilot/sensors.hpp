@@ -20,6 +20,8 @@
 
 
 #pragma once
+#include <string>
+#include <chrono>
 
 namespace autopilot {
 
@@ -28,6 +30,7 @@ struct SensorData {
     double heading;
     double x;
     double y;
+    std::chrono::steady_clock::time_point timestamp;
 };
 
 class Sensors {

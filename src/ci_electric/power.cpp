@@ -22,7 +22,7 @@ namespace ci_electric {
 
 
 bool CiElectric::init() {
-    current_system_state = SystemState::OFF;
+    current_system_state = autopilot::SystemState::OFF;
     current_power_state  = PowerState::OFF;
     // TODO: initialize GPIO subsystem
     return true;

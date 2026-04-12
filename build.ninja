@@ -14,10 +14,14 @@ rule link
 
 # Build instructions
 build main.o: compile src/main.cpp
+build core.o: compile src/core.cpp
 build system.o: compile src/system.cpp
 build control.o: compile src/control.cpp
 build sensors.o: compile src/sensors.cpp
 build telemetry.o: compile src/telemetry.cpp
+build navigation.o: compile src/navigation.cpp
+build ignition.o: compile src/car_electric/ignition.cpp
+build power.o: compile src/ci_electric/power.cpp
 
 # Linking the final executable
-build OpenPilot: link main.o system.o control.o sensors.o telemetry.o
+build OpenPilot: link main.o core.o system.o control.o sensors.o telemetry.o navigation.o ignition.o power.o

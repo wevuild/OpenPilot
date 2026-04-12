@@ -18,25 +18,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-#include "../include/autopilot/control.hpp"
-#include <algorithm>
+#include "../include/autopilot/navigation.hpp"
 
 namespace autopilot {
 
-// Simple PID controller
-static constexpr double kP = 1.0, kI = 0.01, kD = 0.1;
-
-ControlOutput Controller::update(const ControlInput& input) {
-    double error    = input.target_speed - input.current_speed;
-    integral_      += error;
-    double derivative = error - prev_error_;
-    prev_error_     = error;
-
-    ControlOutput output{};
-    output.throttle = std::clamp(kP * error + kI * integral_ + kD * derivative, -1.0, 1.0);
-    output.steering = std::clamp(input.heading_error, -1.0, 1.0);
-    return output;
-}
+void Navigator::set_target(const Position& target) { target_ = target; }
+Position Navigator::get_target() const             { return target_;   }
 
 } // namespace autopilot
