@@ -23,6 +23,7 @@
 #include "../include/autopilot/navigation.hpp"
 #include "../include/autopilot/sensors.hpp"
 #include "../include/autopilot/telemetry.hpp"
+#include "../include/autopilot/lua_engine.hpp"
 #include <string>
 #include <thread>
 #include <chrono>
@@ -39,9 +40,13 @@ int main() {
     system.init();
     system.start();
 
+    LuaEngine lua(navigator, sensors, controller, telemetry);
+    lua.load_script("../scripts/mission.lua");
+
     navigator.set_target(Position{ .x = 100.0, .y = 200.0, .heading = 0.0 });
     telemetry.send("System started. Target set.", LogLevel::INFO);
 
+    constexpr double dt = 0.05; // 20 Hz
     while (system.state() == SystemState::RUNNING) {
         auto data = sensors.read();
 
@@ -54,13 +59,15 @@ int main() {
         auto output = controller.update(input);
         system.update();
 
+        lua.tick(dt);
+
         telemetry.send(
             "throttle=" + std::to_string(output.throttle) +
             " steering=" + std::to_string(output.steering),
             LogLevel::INFO
         );
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50)); // 20 Hz
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
     telemetry.send("System stopped.", LogLevel::WARN);
