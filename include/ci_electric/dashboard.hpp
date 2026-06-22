@@ -31,6 +31,41 @@ enum class DashboardStatus {
     STARTUP
 };
 
+enum class DashboardEvent {
+    POWER_FAILURE,
+    SENSOR_FAILURE,
+    SYSTEM_HEALTH
+};
+
+enum class DashboardAlertLevel {
+    INFO,
+    WARNING,
+    CRITICAL
+};
+
+enum class DashboardAlertType {
+    POWER,
+    SENSOR,
+    SYSTEM
+};
+
+enum class DashboardLights {
+    ENGINE,
+    POWER,
+    CHECK_ENGINE,
+    BATTERY,
+    OIL,
+    BRAKE,
+    AIRBAG,
+    ABS,
+    TRACTION_CONTROL,
+    STABILITY_CONTROL,
+    TIRE_PRESSURE,
+    DOOR,
+    SEATBELT,
+    FUEL,
+};
+
 class Dashboard {
     public:
 
